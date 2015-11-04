@@ -12,8 +12,8 @@ app.get('/', function (req, res) {
 
 io.on('connection', function(socket){
 	console.log('Socket Connected');
-	socket.emit("newVote",{});
-	socket.on("vote" ,function(data){
+	socket.emit("newVote",{"dummy": "data"});
+	socket.on("newVote" ,function(data){
     	console.log('Vote message received');
 	});
 
