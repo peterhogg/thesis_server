@@ -9,7 +9,7 @@ io.on('connection', function(req, res){
     console.log('connection established');
 });
 
-io.on("vote"function(req, res){
+io.on("vote" ,function(req, res){
     console.log('Vote message received');
 });
 
