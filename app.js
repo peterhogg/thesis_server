@@ -10,13 +10,15 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-io.on('connection', function(req, res){
-    console.log('connection established');
+io.on('connection', function(socket){
+	console.log('Socket Connected');
+	socket.onon("vote" ,function(data){
+    	console.log('Vote message received');
+	});
+    
 });
 
-io.on("vote" ,function(req, res){
-    console.log('Vote message received');
-});
+io.
 
 setInterval(function(){ 
     io.emit("newVote", {});    
