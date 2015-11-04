@@ -5,6 +5,11 @@ var server = require('http').createServer(app);
 var port = process.env.PORT || 5000
 var io = require('socket.io')(port);
 
+
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
+});
+
 io.on('connection', function(req, res){
     console.log('connection established');
 });
