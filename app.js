@@ -17,9 +17,3 @@ io.on('connection', function(socket){
 	});
     
 });
-
-io.
-
-setInterval(function(){ 
-    io.emit("newVote", {});    
-}, 5000);
