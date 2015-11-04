@@ -1,5 +1,26 @@
-{  
-	"dependencies": {
-    	"express": "3.4.8"
-  	}
+{
+  "name": "thesis server",
+  "version": "0.0.1",
+  "description": "Server to store polling app for thesis homework",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.13.3",
+    "socket.io": "*"
+  },
+  "engines": {
+    "node": "0.12.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peterhogg/thesis_server"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+    "socket.io"
+  ],
 }
