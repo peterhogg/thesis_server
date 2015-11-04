@@ -7,3 +7,7 @@ var io = require('socket.io')(8000);
 io.on('connection', function(req, res){
     console.log('connection established');
 });
+
+setInterval(function(){ 
+    io.emit("newVote", {});    
+}, 5000);
