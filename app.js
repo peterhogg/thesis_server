@@ -12,10 +12,10 @@ app.get('/', function (req, res) {
 
 io.on('connection', function(socket){
 	console.log('Socket Connected');
-	socket.emit("newVote",{"dummy": "data"});
-	socket.on("newVote" ,function(data){
+	socket.emit("vote",{"dummy": "data"});
+	/*socket.on("newVote" ,function(data){
     	console.log('Vote message received');
-	});
+	});*/
 
     
 });
