@@ -1,5 +1,5 @@
 {
-  "name": "thesis server",
+  "name": "thesis_server",
   "version": "0.0.1",
   "description": "Server to store polling app for thesis homework",
   "main": "app.js",
@@ -20,7 +20,7 @@
   "keywords": [
     "node",
     "heroku",
-    "express"
+    "express",
     "socket.io"
-  ],
+  ]
 }
