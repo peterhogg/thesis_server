@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
 
 io.on('connection', function(socket){
 	console.log('Socket Connected');
-	socket.onon("vote" ,function(data){
+	socket.on("vote" ,function(data){
     	console.log('Vote message received');
 	});
     
