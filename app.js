@@ -5,7 +5,9 @@ var server = require('http').createServer(app);
 var port = process.env.PORT || 5000
 var io = require('socket.io')(port);
 
-io.on('connection', function(socket){
+console.log("App is running at port " + port);
+
+io.on('connection', function(req, res){
 	console.log('Socket Connected');
 	socket.emit("vote",{"dummy": "data"});
 	socket.on("newVote" ,function(data){
