@@ -3,7 +3,8 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var port = process.env.PORT || 5000
-var io = require('socket.io')(port);
+var io = require('socket.io')(server);
+server.listen(port,'0.0.0.0');
 
 //Dummy Data
 var pollData = {
@@ -19,12 +20,17 @@ var pollData = {
 
 console.log("App is running at port " + port);
 
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
 io.on('connection', function(socket){
 	console.log('Socket Connected');
 	socket.emit("newVote",{"dummy": "data"});
 	socket.on("vote" ,function(data){
 		pollData =vote(pollData, data.index);
     	console.log('Vote message received');
+    	console.log(pollData);
 	});
 });
 
