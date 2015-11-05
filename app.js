@@ -9,8 +9,8 @@ console.log("App is running at port " + port);
 
 io.on('connection', function(socket){
 	console.log('Socket Connected');
-	socket.emit("vote",{"dummy": "data"});
-	socket.on("newVote" ,function(data){
+	socket.emit("newVote",{"dummy": "data"});
+	socket.on("vote" ,function(data){
     	console.log('Vote message received');
 	});
 });
