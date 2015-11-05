@@ -7,12 +7,10 @@ var io = require('socket.io')(port);
 
 console.log("App is running at port " + port);
 
-io.on('connection', function(req, res){
+io.on('connection', function(socket){
 	console.log('Socket Connected');
-	/*socket.emit("vote",{"dummy": "data"});
+	socket.emit("vote",{"dummy": "data"});
 	socket.on("newVote" ,function(data){
     	console.log('Vote message received');
 	});
-	*/
-    
 });
