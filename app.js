@@ -41,4 +41,12 @@ io.on('connection', function(socket){
 	socket.on("recevied",function(data){
 		io.emit("fromPhone",{"message":"recevied"})
 	});
+	socket.on("understand",function(data){
+		var topic = data.name;
+		topics[topic].understand ++;
+	});
+	socket.on("like",function(data){
+		var topic = data.name;
+		topics[topic].likes ++;
+	});
 });
