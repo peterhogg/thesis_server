@@ -34,8 +34,8 @@ io.on('connection', function(socket){
 		var topic = data.name;
 		if(topics[topic] == undefined){
 			topics[topic] = {understand:0,likes:0}
-			io.emit("topic", data);	
 		}
+		io.emit("topic", data);
 		
 	});
 	socket.on("recevied",function(data){
