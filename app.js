@@ -16,7 +16,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 app.get('/report', function (req, res) {
-  res.write("Report: " + topics);
+  res.json(topics);
   res.end();
 });
 app.get('/clear', function (req, res) {
