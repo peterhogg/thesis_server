@@ -12,12 +12,18 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+//Holds all the activated topics
+var topics = [];
+
 io.on('connection', function(socket){
 	console.log('Socket Connected');
-	socket.on("new_topic" ,function(data){
+	socket.on("topic" ,function(data){
 		var topic = data.topic;
-		console.log(topic);
-		io.emit("topicActivated", data);
+		if(topics.indexOf(topic) === -1){
+			topics[topics.length -1] = topic
+			io.emit("topic", data);	
+		}
+		
 	});
 	socket.on("recevied",function(data){
 		io.emit("fromPhone",{"message":"recevied"})
