@@ -19,4 +19,7 @@ io.on('connection', function(socket){
 		console.log(topic);
 		io.emit("topicActivated", data);
 	});
+	socket.on("recevied",function(data){
+		io.emit("fromPhone",{"message":"recevied"})
+	});
 });
