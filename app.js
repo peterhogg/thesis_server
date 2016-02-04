@@ -8,19 +8,27 @@ server.listen(port,'0.0.0.0');
 
 console.log("App is running at port " + port);
 
+//Holds all the activated topics
+var topics = [];
+
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
+app.get('/report', function (req, res) {
+  res.write("Report: " + topics);
+  res.end();
+});
 
-//Holds all the activated topics
-var topics = [];
+
 
 io.on('connection', function(socket){
 	console.log('Socket Connected');
 	socket.on("topic" ,function(data){
-		var topic = data.topic;
-		if(topics.indexOf(topic) === -1){
-			topics[topics.length -1] = topic
+		console.log(data)
+		var topic = data.name;
+		if(topics.indexOf(topic) == -1){
+			topics[topics.length] = topic
+			console.log(topics);
 			io.emit("topic", data);	
 		}
 		
