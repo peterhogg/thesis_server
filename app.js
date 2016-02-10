@@ -5,6 +5,7 @@ app.use(express.static('public'));
 var server = require('http').createServer(app);
 var port = process.env.PORT || 5000
 var io = require('socket.io')(server);
+var uuid = require('node-uuid');
 server.listen(port,'0.0.0.0');
 
 console.log("App is running at port " + port);
@@ -29,6 +30,13 @@ app.get('/clear', function (req, res) {
 
 io.on('connection', function(socket){
 	console.log('Socket Connected');
+
+  //Assing UUID to new connection
+  var id = uuid.v4()
+  socket.id = id;
+  socket.emit("id",{id:id});
+
+
 	socket.on("topic" ,function(data){
 		console.log(data)
 		var topic = data.name;
@@ -36,7 +44,7 @@ io.on('connection', function(socket){
 			topics[topic] = {understand:0,likes:0}
 		}
 		io.emit("topic", data);
-		
+
 	});
 	socket.on("recevied",function(data){
 		io.emit("fromPhone",{"message":"recevied"})
