@@ -38,10 +38,9 @@ io.on('connection', function(socket){
 
 
 	socket.on("topic" ,function(data){
-		console.log(data)
 		var topic = data.name;
 		if(topics[topic] == undefined){
-			topics[topic] = {understand:0,likes:0}
+			topics[topic] = {understand:{},likes:{}}
 		}
 		io.emit("topic", data);
 
@@ -51,10 +50,12 @@ io.on('connection', function(socket){
 	});
 	socket.on("understand",function(data){
 		var topic = data.name;
-		topics[topic].understand ++;
+    var id = data.id;
+		topics[topic].understand[id]=true;
 	});
 	socket.on("like",function(data){
 		var topic = data.name;
-		topics[topic].likes ++;
+    var id = data.id;
+		topics[topic].likes[id]=true;
 	});
 });

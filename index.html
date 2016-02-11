@@ -58,7 +58,7 @@
 						This as well will send the server a message, notifying that feedback is now available
 					</p>
 				</section>
-				
+
 
 			</div>
 
@@ -72,12 +72,12 @@
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
-			var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
-			//var socket = io('http://localhost:5000')
+			//var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
+			var socket = io('http://localhost:5000')
 			socket.on("fromPhone",function(data){
 				console.log("Phone replied with a message")
 			});
-			
+
 			Reveal.initialize({
 				controls: true,
 				progress: true,
@@ -106,7 +106,7 @@
 
     			console.log(topic);
 
-    			
+
     			socket.emit('topic',{"name":topic});
 
 			} );
