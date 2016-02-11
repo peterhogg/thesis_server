@@ -40,7 +40,7 @@ io.on('connection', function(socket){
 	socket.on("topic" ,function(data){
 		var topic = data.name;
 		if(topics[topic] == undefined){
-			topics[topic] = {understand:{},likes:{}}
+			topics[topic] = {understand:{},likes:[]}
 		}
 		io.emit("topic", data);
 
@@ -50,12 +50,13 @@ io.on('connection', function(socket){
 	});
 	socket.on("understand",function(data){
 		var topic = data.name;
+    var value = data.value;
     var id = data.id;
-		topics[topic].understand[id]=true;
+		topics[topic].understand[id]=value;
 	});
 	socket.on("like",function(data){
 		var topic = data.name;
     var id = data.id;
-		topics[topic].likes[id]=true;
+		topics[topic].likes.push(id);
 	});
 });
