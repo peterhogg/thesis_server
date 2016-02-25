@@ -41,22 +41,22 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<slideTitle style="display:none">Title Card</slideTitle>
-                    <!-- suggestion:
-                    <topic title="introduction" 
+
+                    <topic style="display:none" title="introduction"
                            description="This is the introduction to Peter's thesis">
-                        <interesting />
-                        <difficulty min="1" max="10" />
+                        <interesting>
+												</interesting>
+                        <difficulty min="1" max="10">
+												</difficulty>
                         <quiz>
                             <question type="multiple_choice" text="What is my name?">
                                 <answer text="Peter Hoggarth" correct="true" />
                                 <answer text="Charles Xavier" />
                                 <answer text="Peter Parker" />
                             </question>
-                            ... more questions ...
                         </quiz>
                     </topic>
-                    -->
+
 					<h1>Peter's Thesis</h1>
 					<h3>Powered by reveal.js</h3>
 				</section>
@@ -90,11 +90,9 @@
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
-			var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
-			//var socket = io('http://localhost:5000')
-			socket.on("fromPhone",function(data){
-				console.log("Phone replied with a message")
-			});
+			//var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
+			var XMLS = new XMLSerializer();
+			var socket = io('http://localhost:5000')
 
 			Reveal.initialize({
 				controls: true,
@@ -118,19 +116,13 @@
 			//Event Listner for slide change
 			Reveal.addEventListener( 'slidechanged', function( event ) {
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
-    			//console.log(event.currentSlide);
     			var slide = event.currentSlide;
-    			//var topic = slide.getElementsByTagName("h2")[0].innerHTML;
-					var topicInfo = slide.getElementsByTagName("slideTitle");
-					if(topicInfo.length > 0){
-						topic = topicInfo[0].innerHTML;
-						socket.emit('topic',{"name":topic});
+					//Sends the meta information of the slide to the phone
+					var data = slide.getElementsByTagName("topic")
+					if (data.length > 0){
+						data = XMLS.serializeToString(data[0])
+						socket.emit('topic',{name:data});
 					}
-
-
-
-
-
 
 			} );
 
