@@ -51,7 +51,7 @@
 			<div class="slides">
 				<section>
 					<slideTitle>Title Card</slideTitle>
-                    <!-- suggestion:
+                    <!-- suggestion: -->
                     <topic title="introduction"
                            description="This is the introduction to Peter's thesis">
                         <interesting />
@@ -65,7 +65,7 @@
                             ... more questions ...
                         </quiz>
                     </topic>
-                    -->
+                    <!-- -->
 					<h1>Peter's Thesis</h1>
 					<h3>Powered by reveal.js</h3>
 				</section>
@@ -146,12 +146,30 @@
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
     			//console.log(event.currentSlide);
     			var slide = event.currentSlide;
-    			//var topic = slide.getElementsByTagName("h2")[0].innerHTML;
 					var topicInfo = slide.getElementsByTagName("slideTitle");
 					if(topicInfo.length > 0){
 						topic = topicInfo[0].innerHTML;
 						socket.emit('topic',{"name":topic});
 						slideIndex = topic;
+					}
+
+					//Using new data in slide example
+					var slideData = slide.getElementsByTagName("topic")[0];
+					var title = slideData.getAttribute("title");
+					var description = slideData.getAttribute("description");
+					var difficultyMin = slideData.getElementsByTagName("difficulty")[0].getAttribute("min")
+					var difficultyMax = slideData.getElementsByTagName("difficulty")[0].getAttribute("max")
+
+					var quiz = slideData.getElementsByTagName("quiz")[0];
+					var questionData = quiz.getElementsByTagName("question")[0];
+					var question = {type: questionData.getAttribute("type"), text: questionData.getAttribute("text")}
+					var answerData = questionData.getElementsByTagName("answer")
+					var answers = []
+					for (i = 0; i < answerData.length; i++){
+						var text = answerData[i].getAttribute("text");
+						var correct = answerData[i].getAttribute("correct");
+						correct = (correct === null) ? false : correct;
+						answers[i] = {text: text, correct: correct}
 					}
 
 
