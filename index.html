@@ -17,6 +17,10 @@
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
+		<link rel="stylesheet" href="css/thesis.css">
+
+
+
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
@@ -36,33 +40,38 @@
 
 	<body>
 
+		<div id="results">
+			<div id="likes"></div>
+			<div id="understand"></div>
+		</div>
+
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-
-                    <topic style="display:none" title="introduction"
+					<slideTitle>Title Card</slideTitle>
+                    <!-- suggestion:
+                    <topic title="introduction"
                            description="This is the introduction to Peter's thesis">
-                        <interesting>
-												</interesting>
-                        <difficulty min="1" max="10">
-												</difficulty>
+                        <interesting />
+                        <difficulty min="1" max="10" />
                         <quiz>
                             <question type="multiple_choice" text="What is my name?">
                                 <answer text="Peter Hoggarth" correct="true" />
                                 <answer text="Charles Xavier" />
                                 <answer text="Peter Parker" />
                             </question>
+                            ... more questions ...
                         </quiz>
                     </topic>
-
+                    -->
 					<h1>Peter's Thesis</h1>
 					<h3>Powered by reveal.js</h3>
 				</section>
 
 				<section>
-					<slideTitle style="display:none">Topic 1</slideTitle>
+					<slideTitle>Topic 1</slideTitle>
 					<h2>Topic 1</h2>
 					<p>
 						loading this slide will send the server a message, notifying that feedback is now available
@@ -70,7 +79,7 @@
 				</section>
 
 				<section>
-					<slideTitle style="display:none">Topic 2</slideTitle>
+					<slideTitle>Topic 2</slideTitle>
 					<h2>Topic 2</h2>
 					<p>
 						This as well will send the server a message, notifying that feedback is now available
@@ -91,8 +100,27 @@
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			//var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
-			var XMLS = new XMLSerializer();
 			var socket = io('http://localhost:5000')
+			var slideIndex;
+			socket.on("newLike",function(data){
+				var likes = data[slideIndex].likes.length
+				var results = document.getElementById("likes");
+				results.innerHTML = likes + " Likes"
+
+			});
+			socket.on("newUnderstanding",function(data){
+				  var total = 0;
+					var sum = 0;
+					for (var user in data[slideIndex].understand){
+						console.log(user)
+						sum += data[slideIndex].understand[user]
+						total +=1;
+					}
+					var results = document.getElementById("understand");
+					results.innerHTML = ((sum/total)/10)*100 + "% Average understanding"
+			});
+
+
 
 			Reveal.initialize({
 				controls: true,
@@ -116,13 +144,21 @@
 			//Event Listner for slide change
 			Reveal.addEventListener( 'slidechanged', function( event ) {
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+    			//console.log(event.currentSlide);
     			var slide = event.currentSlide;
-					//Sends the meta information of the slide to the phone
-					var data = slide.getElementsByTagName("topic")
-					if (data.length > 0){
-						data = XMLS.serializeToString(data[0])
-						socket.emit('topic',{name:data});
+    			//var topic = slide.getElementsByTagName("h2")[0].innerHTML;
+					var topicInfo = slide.getElementsByTagName("slideTitle");
+					if(topicInfo.length > 0){
+						topic = topicInfo[0].innerHTML;
+						socket.emit('topic',{"name":topic});
+						slideIndex = topic;
 					}
+
+
+
+
+
+
 
 			} );
 

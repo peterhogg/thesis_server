@@ -53,10 +53,15 @@ io.on('connection', function(socket){
     var value = data.value;
     var id = data.id;
 		topics[topic].understand[id]=value;
+    io.emit("newUnderstanding",topics);
 	});
 	socket.on("like",function(data){
 		var topic = data.name;
     var id = data.id;
-		topics[topic].likes.push(id);
+    if(topics[topic].likes.indexOf(id) == -1){
+      topics[topic].likes.push(id);
+      io.emit("newLike",topics);
+    }
+
 	});
 });
