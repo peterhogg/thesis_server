@@ -263,6 +263,10 @@ Code Freeze                                                                     
 
 			//Event Listner for slide change
 			Reveal.addEventListener( 'slidechanged', function( event ) {
+
+				//Clear likes on slide change
+				var results = document.getElementById("likes");
+				results.innerHTML = likes + " Likes"
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
     			var slide = event.currentSlide;
 
