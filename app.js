@@ -12,6 +12,7 @@ console.log("App is running at port " + port);
 
 //Holds all the activated topics
 var topics = {};
+var likes = {};
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -50,6 +51,7 @@ io.on('connection', function(socket){
 		io.emit("fromPhone",{"message":"recevied"})
 	});
 	socket.on("understand",function(data){
+    console.log(data);
 		var topic = data.name;
     var value = data.value;
     var id = data.id;
@@ -57,12 +59,14 @@ io.on('connection', function(socket){
     io.emit("newUnderstanding",topics);
 	});
 	socket.on("like",function(data){
+    console.log(data);
 		var topic = data.name;
     var id = data.id;
-    if(topics[topic].likes.indexOf(id) == -1){
-      topics[topic].likes.push(id);
-      io.emit("newLike",topics);
-    }
+    likes[topic]={};
+    likes[topic][id] = true;
+    console.log("likes" + likes);
+    io.emit("newLike",likes);
+
 
 	});
 });

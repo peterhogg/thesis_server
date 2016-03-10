@@ -62,7 +62,6 @@
                                 <answer text="Charles Xavier" />
                                 <answer text="Peter Parker" />
                             </question>
-                            ... more questions ...
                         </quiz>
                     </topic>
                     <!-- -->
@@ -70,24 +69,134 @@
 					<h3>Powered by reveal.js</h3>
 				</section>
 
+
 				<section>
-					<slideTitle>Topic 1</slideTitle>
-					<topic title="Topic 1"
-								 description="This is the introduction to Peter's thesis">
+					<topic title="Thesis Midway Presentation"
+					       description="Peter Hoggarth Supervised by Ken Pu, and Randy Fortier">
 					</topic>
-					<h2>Topic 1</h2>
-					<p>
-						loading this slide will send the server a message, notifying that feedback is now available
-					</p>
+					<h1>Thesis Midway Presentation</h1>
+					<h3>Peter Hoggarth <br /> Supervisors: </br> Ken Pu, Randy Fortier</h3>
 				</section>
 
 				<section>
-					<slideTitle>Topic 2</slideTitle>
-					<h2>Topic 2</h2>
-					<p>
-						This as well will send the server a message, notifying that feedback is now available
-					</p>
+					<topic title="Problem"
+					       description="Using technology to enrich classroom interactions between proffessors and students">
+					    <interesting />
+					    <difficulty min="1" max="2" />
+					</topic>
+					<h1>Problem</h1>
+					<p>Using technology to enrich classroom interactions between proffessors and students</p>
 				</section>
+
+				<section>
+					<topic title="Proposed Solution"
+					       description="Proffesors use revealJS, students provide feedback on their phones">
+					    <interesting />
+					    <difficulty min="1" max="10" />
+					</topic>
+					<h1>Proposed Solution</h1>
+					<p>Proffessors will show slides using revealJS <br /> Reveal slides will dynamically send messages to the server </br> students connected to the server will be able to receive messages, and interact</p>
+				</section>
+
+				<section>
+					<topic title="Outline of Technology Stack"
+					       description="Android, SocketIO, NodeJS, RevealJS">
+					    <interesting />
+					</topic>
+					<h1>Outline of Technology Stack</h1>
+					<p>Android <br /> SocketIO <br/> NodeJS <br /> RevealJS</p>
+				</section>
+
+				<section>
+					<topic title="Android"
+					       description="Front end for students
+			 Opportunity for interaction will open up as lecture progresses
+			 Students able to send feedback through their phone
+			 Use of phone to answer multiple choice questions">
+					    <interesting />
+					    <difficulty min="1" max="10" />
+					</topic>
+					<h1>Android</h1>
+					<p>Front end for students
+Opportunity for interaction will open up as lecture progresses
+Students able to send feedback through their phone
+Use of phone to answer multiple choice questions</p>
+				</section>
+
+				<section>
+					<topic title="SocketIO"
+					       description="Socket IO websockets for sending data back and forth
+			 Bidirectional flow allows for prompts to be sent to and from students, and the server IE questions can be sent to the student, and answers can be sent back
+			 Real time interactions, so feedback such as questions will become available in real time">
+					    <interesting />
+					    <difficulty min="1" max="10" />
+					</topic>
+					<h1>SocketIO</h1>
+					<p>Socket IO websockets for sending data back and forth
+Bidirectional flow allows for prompts to be sent to and from students, and the server IE questions can be sent to the student, and answers can be sent back
+Real time interactions, so feedback such as questions will become available in real time</p>
+				</section>
+
+				<section>
+					<topic title="NodeJS"
+					       description="NodeJS will handle static content for the lecture note slides
+			 The server will also manage socket connections
+			 Store any state variables">
+					    <interesting />
+					    <difficulty min="1" max="10" />
+					</topic>
+					<h1>NodeJS</h1>
+					<p>NodeJS will handle static content for the lecture note slides
+The server will also manage socket connections
+Store any state variables</p>
+				</section>
+
+				<section>
+					<topic title="RevealJS"
+					       description="Reveal will be used to display the lecture slides that are being shown
+			 There will be custom javascript to accompany the slide show to send the server notifications on specific events ie quiz slide displayed">
+					    <interesting />
+					    <difficulty min="1" max="10" />
+					</topic>
+					<h1>RevealJS</h1>
+					<p>Reveal will be used to display the lecture slides that are being shown
+There will be custom javascript to accompany the slide show to send the server notifications on specific events ie quiz slide displayed</p>
+				</section>
+
+				<section>
+					<topic title="Work done so far"
+					       description="Event Driven Android
+			 Send messages from phone to server
+			 Adding in socketIO to reveal JS">
+					</topic>
+					<h1>Work Done So Far</h1>
+					<p>Event Driven Android
+Send messages from phone to server
+Adding in socketIO to reveal JS</p>
+				</section>
+
+				<section>
+					<topic title="Work to be done"
+					       description="Send message from revealJS to android application              - Jan 22nd
+			 Open up discussion topics on android app when slide is hit  -  Feb 05th
+			 Send multiple choice questions to android application           -  Feb 19th
+			 Code Freeze                                                                                     - March 1st">
+					</topic>
+					<h1>Work To Be Done
+</h1>
+					<p>Send message from revealJS to android application              - Jan 22nd
+Open up discussion topics on android app when slide is hit  -  Feb 05th
+Send multiple choice questions to android application           -  Feb 19th
+Code Freeze                                                                                     - March 1st</p>
+				</section>
+
+				<section>
+					<topic title="Questions"
+					       description="Questions?">
+					</topic>
+					<h1>Questions?</h1>
+				</section>
+
 
 
 			</div>
@@ -102,11 +211,19 @@
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
-			//var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
-			var socket = io('http://localhost:5000')
+			var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
+			//var socket = io('http://localhost:5000')
 			var slideIndex;
 			socket.on("newLike",function(data){
-				var likes = data[slideIndex].likes.length
+				var likeObject = data[slideIndex];
+				var likes = 0;
+				for (var user in likeObject){
+					console.log(user);
+					if(likeObject[user] ==true){
+						++likes;
+					}
+				}
+				console.log(likes);
 				var results = document.getElementById("likes");
 				results.innerHTML = likes + " Likes"
 
@@ -149,14 +266,6 @@
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
     			var slide = event.currentSlide;
 
-					//OLD WAY OF DOING IT
-					var topicInfo = slide.getElementsByTagName("slideTitle");
-					if(topicInfo.length > 0){
-						topic = topicInfo[0].innerHTML;
-						//socket.emit('topic',{"name":topic});
-						slideIndex = topic;
-					}
-
 					//Using new data in slide example
 					var data = {};
 
@@ -167,6 +276,7 @@
 						var description = slideData.getAttribute("description");
 
 						data.title = title;
+						slideIndex = title;
 						data.description = description;
 
 						var interesting =slideData.getElementsByTagName("interesting");
