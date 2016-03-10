@@ -55,7 +55,7 @@
                     <topic title="introduction"
                            description="This is the introduction to Peter's thesis">
                         <interesting />
-                        <difficulty min="1" max="10" />
+                        <difficulty min="1" max="2" />
                         <quiz>
                             <question type="multiple_choice" text="What is my name?">
                                 <answer text="Peter Hoggarth" correct="true" />
@@ -72,6 +72,9 @@
 
 				<section>
 					<slideTitle>Topic 1</slideTitle>
+					<topic title="Topic 1"
+								 description="This is the introduction to Peter's thesis">
+					</topic>
 					<h2>Topic 1</h2>
 					<p>
 						loading this slide will send the server a message, notifying that feedback is now available
@@ -144,33 +147,79 @@
 			//Event Listner for slide change
 			Reveal.addEventListener( 'slidechanged', function( event ) {
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
-    			//console.log(event.currentSlide);
     			var slide = event.currentSlide;
+
+					//OLD WAY OF DOING IT
 					var topicInfo = slide.getElementsByTagName("slideTitle");
 					if(topicInfo.length > 0){
 						topic = topicInfo[0].innerHTML;
-						socket.emit('topic',{"name":topic});
+						//socket.emit('topic',{"name":topic});
 						slideIndex = topic;
 					}
 
 					//Using new data in slide example
-					var slideData = slide.getElementsByTagName("topic")[0];
-					var title = slideData.getAttribute("title");
-					var description = slideData.getAttribute("description");
-					var difficultyMin = slideData.getElementsByTagName("difficulty")[0].getAttribute("min")
-					var difficultyMax = slideData.getElementsByTagName("difficulty")[0].getAttribute("max")
+					var data = {};
 
-					var quiz = slideData.getElementsByTagName("quiz")[0];
-					var questionData = quiz.getElementsByTagName("question")[0];
-					var question = {type: questionData.getAttribute("type"), text: questionData.getAttribute("text")}
-					var answerData = questionData.getElementsByTagName("answer")
-					var answers = []
-					for (i = 0; i < answerData.length; i++){
-						var text = answerData[i].getAttribute("text");
-						var correct = answerData[i].getAttribute("correct");
-						correct = (correct === null) ? false : correct;
-						answers[i] = {text: text, correct: correct}
+					var slideData = slide.getElementsByTagName("topic");
+					if( slideData.length > 0){
+						slideData = slideData[0]
+						var title = slideData.getAttribute("title");
+						var description = slideData.getAttribute("description");
+
+						data.title = title;
+						data.description = description;
+
+						var interesting =slideData.getElementsByTagName("interesting");
+						if(interesting.length > 0){
+							data.interesting = true;
+						}
+						else {
+							data.interesting = false;
+						}
+
+						var difficulty = slideData.getElementsByTagName("difficulty");
+						if (difficulty.length > 0){
+							var difficultyMin = difficulty[0].getAttribute("min")
+							var difficultyMax = difficulty[0].getAttribute("max")
+
+							data.difficulty = true;
+							data.maxDifficulty = difficultyMax
+							data.minDifficulty = difficultyMin
+						}
+						else{
+							data.difficulty = false;
+						}
+
+						var quiz = slideData.getElementsByTagName("quiz");
+						if (quiz.length > 0) {
+							data.quiz = true;
+							quiz = quiz[0]
+							var questionData = quiz.getElementsByTagName("question")[0];
+							var question = {type: questionData.getAttribute("type"), text: questionData.getAttribute("text")}
+							var answerData = questionData.getElementsByTagName("answer")
+							var answers = []
+							for (i = 0; i < answerData.length; i++){
+								var text = answerData[i].getAttribute("text");
+								var correct = answerData[i].getAttribute("correct");
+								correct = (correct === null) ? false : correct;
+								answers[i] = {text: text, correct: correct}
+							}
+
+							data.question = question;
+							data.answers = answers;
+						}
+						else{
+							data.quiz = false;
+						}
+
+
+						console.log(JSON.stringify(data))
+
+						socket.emit("topic",data)
 					}
+
+
+
 
 
 

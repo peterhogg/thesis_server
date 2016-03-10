@@ -42,6 +42,7 @@ io.on('connection', function(socket){
 		if(topics[topic] == undefined){
 			topics[topic] = {understand:{},likes:[]}
 		}
+    console.log(data)
 		io.emit("topic", data);
 
 	});
