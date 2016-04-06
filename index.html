@@ -211,8 +211,8 @@ Code Freeze                                                                     
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
-			//var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
-			var socket = io('http://localhost:5000')
+			var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
+			//var socket = io('http://localhost:5000')
 			var slideIndex;
 			socket.on("newLike",function(data){
 				var likeObject = data[slideIndex];
