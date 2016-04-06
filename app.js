@@ -62,7 +62,9 @@ io.on('connection', function(socket){
     console.log(data);
 		var topic = data.name;
     var id = data.id;
-    likes[topic]={};
+    if(likes[topic] == undefined){
+      likes[topic]={};
+    }
     likes[topic][id] = true;
     console.log("likes" + likes);
     io.emit("newLike",likes);
