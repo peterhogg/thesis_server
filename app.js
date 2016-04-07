@@ -11,8 +11,9 @@ server.listen(port,'0.0.0.0');
 console.log("App is running at port " + port);
 
 //Holds all the activated topics
-var topics = {};
-var likes = {};
+var topics      = {};
+var likes       = {};
+var understand  = {};
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -55,17 +56,21 @@ io.on('connection', function(socket){
 		var topic = data.name;
     var value = data.value;
     var id = data.id;
-		topics[topic].understand[id]=value;
-    io.emit("newUnderstanding",topics);
+    if(understand[topic] == undefined){
+      understand[topic]={};
+    }
+		understand[topic][id]=value;
+    io.emit("newUnderstanding",understand);
 	});
 	socket.on("like",function(data){
     console.log(data);
 		var topic = data.name;
     var id = data.id;
+    var likeStatus = data.checked;
     if(likes[topic] == undefined){
       likes[topic]={};
     }
-    likes[topic][id] = true;
+    likes[topic][id] = likeStatus;
     console.log("likes" + likes);
     io.emit("newLike",likes);
 

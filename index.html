@@ -211,14 +211,13 @@ Code Freeze                                                                     
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
-			var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
-			//var socket = io('http://localhost:5000')
+			//var socket = io('https://cryptic-brushlands-8704.herokuapp.com');
+			var socket = io('http://localhost:5000')
 			var slideIndex;
 			socket.on("newLike",function(data){
 				var likeObject = data[slideIndex];
 				var likes = 0;
 				for (var user in likeObject){
-					console.log(user);
 					if(likeObject[user] ==true){
 						++likes;
 					}
@@ -226,18 +225,22 @@ Code Freeze                                                                     
 				console.log(likes);
 				var results = document.getElementById("likes");
 				results.innerHTML = likes + " Likes"
+				
 
 			});
 			socket.on("newUnderstanding",function(data){
-				  var total = 0;
-					var sum = 0;
-					for (var user in data[slideIndex].understand){
-						console.log(user)
-						sum += data[slideIndex].understand[user]
-						total +=1;
-					}
-					var results = document.getElementById("understand");
-					results.innerHTML = ((sum/total)/10)*100 + "% Average understanding"
+				console.log("new understanding" + JSON.stringify(data))
+				var understandObject = data[slideIndex];
+				var understandTotal = 0;
+				var userTotal = 0;
+				for (var user in understandObject){
+					userTotal ++;
+					understandTotal += understandObject[user];
+				}
+				console.log(understandTotal + "/" + userTotal);
+				console.log(likes);
+				var results = document.getElementById("understand");
+				results.innerHTML = "Average Understanding: " + Math.floor((understandTotal/userTotal) * 100) + "%"
 			});
 
 
@@ -266,7 +269,9 @@ Code Freeze                                                                     
 
 				//Clear likes on slide change
 				var results = document.getElementById("likes");
+				var understandResults = document.getElementById("understand");
 				results.innerHTML = ""
+				understandResults.innerHTML = ""
     			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
     			var slide = event.currentSlide;
 
