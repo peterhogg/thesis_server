@@ -16,6 +16,9 @@ var likes       = {};
 var understand  = {};
 
 app.get('/', function (req, res) {
+  topics = {};
+  likes = {};
+  understand = {};
   res.sendFile(__dirname + '/index.html');
 });
 app.get('/report', function (req, res) {
